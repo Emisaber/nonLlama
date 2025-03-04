@@ -286,7 +286,7 @@ def eval():
 # START TRAINING/EVALUATION
 if __name__ == "__main__":
 
-    pretrain_train_dataset = PreTrainDataset(data_dir=data_dir, split="train", data_len=val_data_len, block_size=block_size)
+    pretrain_train_dataset = PreTrainDataset(data_dir=data_dir, split="train", data_len=train_data_len, block_size=block_size)
     
     if ddp:
         # sampler = DistributedSampler(pretrain_train_dataset)
