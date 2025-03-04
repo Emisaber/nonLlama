@@ -14,7 +14,7 @@ NonLlama: 不是Llama但是有点像的小项目
 
 本项目原目标是：从代码层面理解大语言模型的架构和训练   
 以下是可能需要知道的关于项目的概要  
-- 项目主要基于karparthy大神的 nanoGPT 实现，参考和借鉴了许多其它源码和项目
+- 项目主要基于karpathy大神的 nanoGPT 实现，参考和借鉴了许多其它源码和项目
 - 项目实现了一个简化版的LLM Pre-trainning 的过程，粗糙简单地实现了 从数据选择，数据处理，模型架构，多卡训练的过程
 	- 项目使用的数据集为 wikipedia-en [wikimedia/wikipedia · Datasets at Hugging Face](https://huggingface.co/datasets/wikimedia/wikipedia)
 	- 简单地使用了MinHash对数据进行去重
