@@ -25,6 +25,21 @@ NonLlama: 不是Llama但是有点像的小项目
 	- 重新实现了RandomSampler 和 DistributedRandomSampler 以避免大数据集进行shuffle时产生的OOM
 	- 使用DDP进行多卡训练
 
+### Quick Start
+启动方式与nanoGPT相同  
+单卡/cpu 启动  
+```
+python train.py config/config_file.py
+```
+
+单机多卡启动  
+```
+torchrun --standalone --nproc_per_node=2 train.py
+```
+
+> train.py 接受文件作为参数，也可以直接指定全局变量修改(如`--wandb_log=False`)
+
+
 ### Additional
 
 - 附带学习nanoGPT时记录的笔记
