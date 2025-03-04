@@ -7,7 +7,7 @@
 tokenizer map the characters/words to integer/code  
 In character size tokenizer the len of chars in dataset is the vocabulary size of model   
 so with character size tokenizer, we have small size of code book but long sequence of encode   
-![[Pasted image 20250110160507.png]]  
+
 #### tokenizer
 nanoGPT use the very simple tokenizer   
 ```python
@@ -94,7 +94,6 @@ class BigramLanguageModel(nn.Module):
 
 Generally speaking, bigram language model is the model that predict next token only depend on the last token (or words pair)   
 `BigramLanguageModel` here performs as a baseline   
-more details see [[makemore]] 👈 **待补**    
 
 ##### Why reshape?
 
@@ -255,12 +254,13 @@ for b in range(B):
 
 But the implementation is not efficient enough, using matrix multiplication instead of traversing in two loop    
 
-首先，矩阵相乘$A \times B$ 有两个角度，一个是结果$C$第$i$行是B每一行依据A的第$i$行加权求和的结果(行的角度)，一个是C的第$i$列，是A的每一列依据B的第$i$列加权求和的结果   
+首先，矩阵相乘$A \times B$ 有两个角度，一个是结果 $C$ 第 $i$ 行是B每一行依据A的第$i$行加权求和的结果(行的角度)，一个是C的第 $i$ 列，是A的每一列依据B的第$i$列加权求和的结果   
 
 从行的角度来说  
 $$
 c_{ij} = \mathbf{a}_i \cdot \mathbf{b}_j
-$$
+$$  
+
 即a的第i行与a的第j列的点乘   
 
 因此，利用这样的特性，可以直接对token进行累加和平均   
@@ -359,8 +359,7 @@ out = wei @ V
 减小方差   
 softmax是一个归一化函数，如果进行归一的数据差距过大，容易导致函数收敛到极端(1)  
 即，注意力/token之间的相关性只在个别数值大的position有效。      
-通过scaled，除以$\sqrt{d_k}$来减小方差     
-[[Why dividing by square root of dimension of key vector]]   
+通过scaled，除以 $\sqrt{d_k}$ 来减小方差     
 
 ##### Attention Head
 
