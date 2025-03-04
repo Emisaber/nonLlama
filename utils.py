@@ -67,13 +67,13 @@ class ChunkedRandomSampler(Sampler[int]):
             generator = self.generator
             
         if self.replacement:
-            for _ in range(self.num_samples // 32):
+            for _ in range(self.num_samples // chunk_size):
                 yield from torch.randint(
-                    high=n, size=(32,), dtype=torch.int64, generator=generator
+                    high=n, size=(chunk_size,), dtype=torch.int64, generator=generator
                 ).tolist()
             yield from torch.randint(
                 high=n,
-                size=(self.num_samples % 32,),
+                size=(self.num_samples % chunk_size,),
                 dtype=torch.int64,
                 generator=generator,
             ).tolist()
@@ -138,13 +138,13 @@ class DistributedChunkedSampler(Sampler):
             g = torch.Generator()
             g.manual_seed(self.seed + self.epoch)
             n = len(self.dataset)
-            for _ in range(self.num_samples // 32):
+            for _ in range(self.num_samples // self.chunk_size):
                 yield from torch.randint(
-                    high=n, size=(32,), dtype=torch.int64, generator=g
+                    high=n, size=(self.chunk_size,), dtype=torch.int64, generator=g
                 ).tolist()
             yield from torch.randint(
                 high=n,
-                size=(self.num_samples % 32,),
+                size=(self.num_samples % self.chunk_size,),
                 dtype=torch.int64,
                 generator=g,
             ).tolist()
