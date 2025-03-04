@@ -1,4 +1,3 @@
-尽管看完了视频，源码感觉还是很有差别，比较重要的(需要搞懂和再写一遍的？)应该是`model.py` 和 `train.py`    
 
 ## `model.py`
 
@@ -193,7 +192,7 @@ def __init__(self, config):
 - Weight Tying
 	- embedding 和 softmax层权重共享，能优化模型表现（Attention is all you need 采用了这个方法）
 	- 代码中实现 `self.transformer.wte.weight = self.lm_head.weight`，但是有warning
-	- [[Why Weight Tying]]
+	- [Why Weight Tying](https://emisaber.github.io/White_Box/Notes/Why-Weight-Tying)
 - `self.apply(self._init_weights)`  
 	- 对模型进行特殊的权重初始化 
 	- maybe an empirical method
@@ -396,7 +395,7 @@ def estimate_mfu(self, fwdbwd_per_iter, dt):
 	return mfu
 ```
 - MFU: model flops utilization
-- FLOPs计算(来自PaLM) $R = \frac{P}{6N+12LHQT}$ 其中$6N$来自parameter，$12LHQT$来自attention的两次矩阵运算，在这里计算反过来了
+- FLOPs计算(来自PaLM) $R = \frac{P}{6N+12LHQT}$ 其中 $6N$ 来自parameter，$12LHQT$ 来自attention的两次矩阵运算?，在这里计算反过来了
 - `dt`是迭代一次的时间
 
 **生成**    
@@ -488,7 +487,7 @@ compile = True # use PyTorch 2.0 to compile the model to be faster
 - `beta1, beta2`:  是AdamW中的两个参数
 - `decay_lr`, `warmup_iters`, `lr_decay_iters`, `min_lr` 用于调整学习率  
 	- Chinchilla是谷歌scaling law论文的模型名字，不知道这里指的是什么  
-- backend 是DDP的设置 [[Pytorch DistributedDataParallel(DDP)]]  
+- backend 是DDP的设置  
 - `torch.compile`  是pytorch 2.0引入的新特性，通过即时编译技术显著提升模型训练和推理速度。 
 
 ```python
@@ -499,7 +498,7 @@ config = {k: globals()[k] for k in config_keys} # will be useful for logging
 - `globals()` 返回当前模块全局命名空间的字典，`python`中每个文件会有自己的全局命名空间，存储了定义的所有全局变量
 - `config_keys`遍历所有全局变量找到所有config
 - `exec(open('configurator.py').read())` 读取`configurator.py`中的代码然后执行，修改全局命名空间中的全局变量
-- 这个的实现(Karparthy原话)不是很好，直接import虽然能执行代码但是不会修改当前的globals，如果用parser解析输入的参数，需要对每个config variable都写一次，确实也不是很好
+- 这个的实现(原话)不是很好，直接import虽然能执行代码但是不会修改当前的globals，如果用parser解析输入的参数，需要对每个config variable都写一次，确实也不是很好
 
 
 #### DDP 
